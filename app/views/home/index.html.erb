@@ -2,14 +2,11 @@
   <div class="row text-center justify-content-center">
     <div class="col">
       <h1 class="display-4">Tickets</h1>
-      <% Ticket.all.order(:start_datetime).each do |t| %>
-        
-      <% end %>
       <table class="table">
       <thead>
         <tr>
           <th>Date</th>
-          <% TicketPrice.all.pluck(:fetched_at).uniq.each do |t| %>
+          <% TicketPrice.all.order(:fetched_at).pluck(:fetched_at).uniq.each do |t| %>
             <th><%= t.in_time_zone('Pacific Time (US & Canada)').strftime("%b %d") %></th>
           <% end %>
         </th>
@@ -17,7 +14,7 @@
       <% Ticket.all.order(:start_datetime).each do |ticket| %>
         <tr>
           <td colspan="<%= ticket.ticket_prices.count+1 %>">
-            <%= line_chart ticket.ticket_prices.pluck(:fetched_at, :price), xtitle: "Fetched At", ytitle: "Price" %>
+            <%= line_chart ticket.ticket_prices.order(:fetched_at).pluck(:fetched_at, :price), xtitle: "Fetched At", ytitle: "Price" %>
           </td>
         </tr>
         <tr>
