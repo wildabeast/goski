@@ -6,22 +6,26 @@
       <thead>
         <tr>
           <th>Date</th>
+          <% TicketPrice.all.pluck(:fetched_at).uniq.each do |t| %>
+            <th><%= t.in_time_zone('Pacific Time (US & Canada)').strftime("%b %d") %></th>
+          <% end %>
         </th>
       </thead>
       <% Ticket.all.order(:start_datetime).each do |ticket| %>
         <tr>
           <td>
-            <%= ticket.start_datetime.strftime("%b %d") %>
+            <b>
+              <%= ticket.start_datetime.strftime("%b %d") %>
+            </b>
+            <%= ticket.start_datetime.strftime("%l%P").strip %>
           </td>
           <% lastprice = nil %>
           <% ticket.ticket_prices.each do |tp| %>
             <% bgcolor = '' %>
-            <% if lastprice && tp.price > lastprice %>
-              <% bgcolor = 'red' %>
-            <% end %>
-            <td style="background-color: <%= bgcolor %>">
+            <td class="<%= lastprice && tp.price > lastprice ? 'text-danger' : '' %>">
               $<%= tp.price %>
             </td>
+            <% lastprice = tp.price %>
           <% end %>
         </tr>
       <% end %>
