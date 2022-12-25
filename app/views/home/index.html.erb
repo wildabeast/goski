@@ -1,7 +1,35 @@
 <main class="container">
   <div class="row text-center justify-content-center">
     <div class="col">
-      <h1 class="display-4">Hello World!</h1>
+      <h1 class="display-4">Tickets</h1>
+      <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+        </th>
+      </thead>
+      <% Ticket.all.order(:start_datetime).each do |ticket| %>
+        <tr>
+          <td>
+            <%= ticket.start_datetime.strftime("%b %d") %>
+          </td>
+          <% lastprice = nil %>
+          <% ticket.ticket_prices.each do |tp| %>
+            <% bgcolor = '' %>
+            <% if lastprice && tp.price > lastprice %>
+              <% bgcolor = 'red' %>
+            <% end %>
+            <td style="background-color: <%= bgcolor %>">
+              $<%= tp.price %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+      </table>
     </div>
   </div>
 </main>
+
+<style>
+
+</style>
