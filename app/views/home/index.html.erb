@@ -2,6 +2,9 @@
   <div class="row text-center justify-content-center">
     <div class="col">
       <h1 class="display-4">Tickets</h1>
+      <% Ticket.all.order(:start_datetime).each do |t| %>
+        
+      <% end %>
       <table class="table">
       <thead>
         <tr>
@@ -12,6 +15,11 @@
         </th>
       </thead>
       <% Ticket.all.order(:start_datetime).each do |ticket| %>
+        <tr>
+          <td colspan="<%= ticket.ticket_prices.count+1 %>">
+            <%= line_chart ticket.ticket_prices.pluck(:fetched_at, :price), xtitle: "Fetched At", ytitle: "Price" %>
+          </td>
+        </tr>
         <tr>
           <td>
             <b>
