@@ -29,6 +29,8 @@ namespace :tickets do
 
     data.filter! { |item| item['ageRange'] == 'Adult' && item['accessType'] == 'a'}
 
+    now = Date.now
+
     curDate = nil
     data.each do |item|
       price = item['title'].split(' ')[0].gsub('$', '').to_i
@@ -55,7 +57,8 @@ namespace :tickets do
     
       tp = TicketPrice.new(
         ticket: ticket,
-        price: price
+        price: price,
+        fetched_at: now
       )
 
       ticket.save
