@@ -29,7 +29,7 @@ namespace :tickets do
 
     data.filter! { |item| item['ageRange'] == 'Adult' && item['accessType'] == 'a'}
 
-    now = Date.now
+    now = DateTime.now
 
     curDate = nil
     data.each do |item|
